@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ImageFileProcessor.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DestinationDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\Zero\Pictures\Other Images\Canon Rebel T5</Value>
+    </Setting>
+    <Setting Name="SourceDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">H:\DCIM</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
