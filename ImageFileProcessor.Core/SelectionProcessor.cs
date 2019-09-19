@@ -1,44 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
+using System.Linq;
 
-namespace ImageFileProcessor
+namespace ImageFileProcessor.Core
 {
-    public partial class SortForm : Form
+    public class SelectionProcessor
     {
-        public SortForm()
+        public String SortList(String directory, String selections, Boolean includeFiles)
         {
-            InitializeComponent();
-        }
-
-        private void BrowseButton_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog FBD = new FolderBrowserDialog();
-            FBD.RootFolder = Environment.SpecialFolder.MyPictures;
-            if (FBD.ShowDialog() == DialogResult.OK)
-            {
-                PictureFolderTextBox.Text = FBD.SelectedPath;
-            }
-            //OpenFileDialog OFD = new OpenFileDialog();
-            //OFD.
-        }
-
-        private void SortOutButton_Click(object sender, EventArgs e)
-        {
-            List<Int32> SelectedList = ParseList();
+            String sortedList = String.Empty;
+            List<Int32> SelectedList = ParseList(selections);
             if (SelectedList.Any())
             {
-                DirectoryInfo DI = new DirectoryInfo(PictureFolderTextBox.Text);
+                DirectoryInfo DI = new DirectoryInfo(directory);
                 if (DI.Exists)
                 {
-                    List<FileInfo> ImageFiles = DI.GetFiles("IMG_*").ToList();
+                    List<FileInfo> ImageFiles = new List<FileInfo>();
+                    //We need to add a list of files that aren't of images to compensate for onedrive.
+                    Int32 ExtraItems = 0;
+                    if (includeFiles)
+                    {
+                        ExtraItems += DI.GetFiles().Count() - DI.GetFiles("*.jpg").Count();
+                    }
+                    //And folders.
+                    if (includeFiles)
+                    {
+                        ExtraItems += DI.GetDirectories().Count();
+                    }
+                    //Now add them as blanks.
+                    for (Int32 i = 0; i < ExtraItems; i++)
+                    {
+                        ImageFiles.Add(null);
+                    }
+                    ImageFiles.AddRange(DI.GetFiles("*.jpg"));
+
                     List<FileInfo> SelectedImageFiles = new List<FileInfo>();
                     SelectedList.ForEach(x =>
                     {
@@ -46,26 +43,27 @@ namespace ImageFileProcessor
                     });
                     SelectedImageFiles.ForEach(x =>
                     {
-                        SelectedImagesOutput.Text += x.Name + ", ";
+                        sortedList += x.Name + ", ";
                     });
-                    SelectedImagesOutput.Text.TrimEnd(new char[] { ' ', ',' });
+                    sortedList.TrimEnd(new char[] { ' ', ',' });
                 }
                 else
                 {
-                    MessageBox.Show("Cannot find image directory.");
+                    sortedList = "Cannot find image directory.";
                 }
             }
             else
             {
-                MessageBox.Show("Selected list is empty.");
+                sortedList = "Selected list is empty.";
             }
+            return sortedList;
         }
 
-        private List<Int32> ParseList()
+        private List<Int32> ParseList(String selectedImages)
         {
             try
             {
-                List<String> SplitListA = SelectedImagesTextBox.Text.Split(',').ToList();
+                List<String> SplitListA = selectedImages.Split(',', ' ').ToList();
                 //Let's parse anything with a - into something useful
                 List<String> SplitListB = new List<String>();
                 SplitListA.ForEach(x =>
@@ -99,8 +97,7 @@ namespace ImageFileProcessor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                return new List<Int32>();
+                throw;
             }
         }
     }
