@@ -36,6 +36,7 @@
             this.SourceBrowseButton = new System.Windows.Forms.Button();
             this.ProcessButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CopyOnlyCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.IncludeFolders = new System.Windows.Forms.CheckBox();
             this.IncludeFiles = new System.Windows.Forms.CheckBox();
@@ -45,13 +46,15 @@
             this.BrowseButton = new System.Windows.Forms.Button();
             this.SelectedImagesTextBox = new System.Windows.Forms.TextBox();
             this.PictureFolderTextBox = new System.Windows.Forms.TextBox();
-            this.CopyOnlyCheckbox = new System.Windows.Forms.CheckBox();
+            this.transferProgressBar = new System.Windows.Forms.ProgressBar();
+            this.transferBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // DestinationBrowseButton
             // 
+            this.DestinationBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.DestinationBrowseButton.Location = new System.Drawing.Point(395, 11);
             this.DestinationBrowseButton.Name = "DestinationBrowseButton";
             this.DestinationBrowseButton.Size = new System.Drawing.Size(75, 23);
@@ -71,6 +74,8 @@
             // 
             // DestinationTextBox
             // 
+            this.DestinationTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.DestinationTextBox.Location = new System.Drawing.Point(75, 13);
             this.DestinationTextBox.Name = "DestinationTextBox";
             this.DestinationTextBox.Size = new System.Drawing.Size(314, 20);
@@ -78,6 +83,8 @@
             // 
             // SourceTextBox
             // 
+            this.SourceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.SourceTextBox.Location = new System.Drawing.Point(75, 42);
             this.SourceTextBox.Name = "SourceTextBox";
             this.SourceTextBox.Size = new System.Drawing.Size(314, 20);
@@ -94,6 +101,7 @@
             // 
             // SourceBrowseButton
             // 
+            this.SourceBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SourceBrowseButton.Location = new System.Drawing.Point(395, 40);
             this.SourceBrowseButton.Name = "SourceBrowseButton";
             this.SourceBrowseButton.Size = new System.Drawing.Size(75, 23);
@@ -104,6 +112,8 @@
             // 
             // ProcessButton
             // 
+            this.ProcessButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ProcessButton.Location = new System.Drawing.Point(6, 68);
             this.ProcessButton.Name = "ProcessButton";
             this.ProcessButton.Size = new System.Drawing.Size(383, 23);
@@ -114,6 +124,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.transferProgressBar);
             this.groupBox1.Controls.Add(this.CopyOnlyCheckbox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.ProcessButton);
@@ -124,10 +137,21 @@
             this.groupBox1.Controls.Add(this.SourceBrowseButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(476, 100);
+            this.groupBox1.Size = new System.Drawing.Size(476, 132);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Transfer";
+            // 
+            // CopyOnlyCheckbox
+            // 
+            this.CopyOnlyCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CopyOnlyCheckbox.AutoSize = true;
+            this.CopyOnlyCheckbox.Location = new System.Drawing.Point(395, 68);
+            this.CopyOnlyCheckbox.Name = "CopyOnlyCheckbox";
+            this.CopyOnlyCheckbox.Size = new System.Drawing.Size(50, 17);
+            this.CopyOnlyCheckbox.TabIndex = 7;
+            this.CopyOnlyCheckbox.Text = "Copy";
+            this.CopyOnlyCheckbox.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -142,9 +166,9 @@
             this.groupBox2.Controls.Add(this.BrowseButton);
             this.groupBox2.Controls.Add(this.SelectedImagesTextBox);
             this.groupBox2.Controls.Add(this.PictureFolderTextBox);
-            this.groupBox2.Location = new System.Drawing.Point(12, 118);
+            this.groupBox2.Location = new System.Drawing.Point(12, 269);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(476, 273);
+            this.groupBox2.Size = new System.Drawing.Size(476, 326);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sort";
@@ -177,7 +201,7 @@
             this.SelectedImagesOutput.Location = new System.Drawing.Point(20, 125);
             this.SelectedImagesOutput.Multiline = true;
             this.SelectedImagesOutput.Name = "SelectedImagesOutput";
-            this.SelectedImagesOutput.Size = new System.Drawing.Size(436, 142);
+            this.SelectedImagesOutput.Size = new System.Drawing.Size(436, 195);
             this.SelectedImagesOutput.TabIndex = 11;
             // 
             // label3
@@ -229,21 +253,27 @@
             this.PictureFolderTextBox.Size = new System.Drawing.Size(355, 20);
             this.PictureFolderTextBox.TabIndex = 6;
             // 
-            // CopyOnlyCheckbox
+            // transferProgressBar
             // 
-            this.CopyOnlyCheckbox.AutoSize = true;
-            this.CopyOnlyCheckbox.Location = new System.Drawing.Point(395, 68);
-            this.CopyOnlyCheckbox.Name = "CopyOnlyCheckbox";
-            this.CopyOnlyCheckbox.Size = new System.Drawing.Size(50, 17);
-            this.CopyOnlyCheckbox.TabIndex = 7;
-            this.CopyOnlyCheckbox.Text = "Copy";
-            this.CopyOnlyCheckbox.UseVisualStyleBackColor = true;
+            this.transferProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.transferProgressBar.Location = new System.Drawing.Point(6, 97);
+            this.transferProgressBar.Name = "transferProgressBar";
+            this.transferProgressBar.Size = new System.Drawing.Size(464, 23);
+            this.transferProgressBar.TabIndex = 9;
+            // 
+            // transferBackgroundWorker
+            // 
+            this.transferBackgroundWorker.WorkerReportsProgress = true;
+            this.transferBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.transferBackgroundWorker_DoWork);
+            this.transferBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.transferBackgroundWorker_ProgressChanged);
+            this.transferBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.transferBackgroundWorker_RunWorkerCompleted);
             // 
             // TransferForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 403);
+            this.ClientSize = new System.Drawing.Size(504, 607);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "TransferForm";
@@ -276,6 +306,8 @@
         private System.Windows.Forms.CheckBox IncludeFiles;
         private System.Windows.Forms.CheckBox IncludeFolders;
         private System.Windows.Forms.CheckBox CopyOnlyCheckbox;
+        private System.Windows.Forms.ProgressBar transferProgressBar;
+        private System.ComponentModel.BackgroundWorker transferBackgroundWorker;
     }
 }
 

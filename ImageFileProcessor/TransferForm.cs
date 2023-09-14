@@ -55,8 +55,23 @@ namespace ImageFileProcessor
 
         private void ProcessButton_Click(object sender, EventArgs e)
         {
+        }
+
+        private void transferBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = (BackgroundWorker)sender;
             FileMover fileMover = new FileMover();
-            fileMover.MoveFileset(SourceTextBox.Text, DestinationTextBox.Text, CopyOnlyCheckbox.Checked);
+            fileMover.MoveFileset(SourceTextBox.Text, DestinationTextBox.Text, CopyOnlyCheckbox.Checked, ref worker);
+        }
+
+        private void transferBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            transferProgressBar.Value = e.ProgressPercentage;
+        }
+
+        private void transferBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("Transfer Complete", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
 
@@ -87,5 +102,6 @@ namespace ImageFileProcessor
         }
 
         #endregion
+
     }
 }
