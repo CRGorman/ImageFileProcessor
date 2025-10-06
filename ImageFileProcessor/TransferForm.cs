@@ -53,8 +53,9 @@ namespace ImageFileProcessor
             SourceTextBox.Text = Properties.Settings.Default.SourceDirectory;
         }
 
-        private void ProcessButton_Click(object sender, EventArgs e)
+        private async void ProcessButton_Click(object sender, EventArgs e)
         {
+            transferBackgroundWorker.RunWorkerAsync();
         }
 
         private void transferBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
