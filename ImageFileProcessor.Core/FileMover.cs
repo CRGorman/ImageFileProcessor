@@ -49,7 +49,8 @@ namespace ImageFileProcessor.Core
                         File.Move(image.FullName, newName);
                     }
                     progressCount++;
-                    backgroundWorker.ReportProgress(progressCount / imageCount * 100);
+                    // Multiply before dividing to avoid integer division rounding to 0
+                    backgroundWorker.ReportProgress(progressCount * 100 / imageCount);
                 }
 
                 //Videos MVI

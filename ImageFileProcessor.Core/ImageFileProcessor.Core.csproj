@@ -1,23 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.8.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="C:\Users\Zero\.nuget\packages\magick.net-q16-anycpu\13.2.0\build\netstandard20\..\..\runtimes\win-arm64\native\Magick.Native-Q16-arm64.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="C:\Users\Zero\.nuget\packages\magick.net-q16-anycpu\13.2.0\build\netstandard20\..\..\runtimes\win-x64\native\Magick.Native-Q16-x64.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="C:\Users\Zero\.nuget\packages\magick.net-q16-anycpu\13.2.0\build\netstandard20\..\..\runtimes\win-x86\native\Magick.Native-Q16-x86.dll" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.11.0" />
   </ItemGroup>
 
 </Project>
